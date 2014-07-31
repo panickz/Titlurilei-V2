@@ -17,7 +17,6 @@
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
 <script type="text/javascript" src="scripts/jquery.swipebox.js"></script>
-<script type="text/javascript" src="scripts/colorbox.js"></script>
 <script type="text/javascript" src="scripts/snap.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript" src="scripts/framework.js"></script>
@@ -28,20 +27,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	function onDeviceReady() {
 	
 		 navigator.splashscreen.hide();
-		 
-		 $.ajax({
-	        async: false,
-	        type: "GET",
-	        url: "http://www.titlurile-zilei.ro/getWeatherJSON",
-	        dataType: "JSON",
-	        success: function (e) {
-	            $(".temperature").append(Math.floor(e.main.temp)+'º');
-	            $(".sidebar-logo").attr('src','http://openweathermap.org/img/w/' + e.weather[0].icon + '.png');
-	        }
-	    });
-	   
-	    var now = moment().format("dd, MM Do, YYYY, h:mm:ss A");
-		$('.data').append(now);
+
 	}
 </script>
 </head>
@@ -211,6 +197,27 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 
 	$(document).ready(function () {
+		
+		 $.ajax({
+	        async: false,
+	        type: "GET",
+	        url: "http://www.titlurile-zilei.ro/getWeatherJSON",
+	        dataType: "JSON",
+	        success: function (e) {
+	            $(".temperature").append(Math.floor(e.main.temp)+'º');
+	            $(".sidebar-logo").attr('src','http://openweathermap.org/img/w/' + e.weather[0].icon + '.png');
+	        }
+	    });
+	    
+	    $.ajax({
+	        async: false,
+	        type: "GET",
+	        url: "http://www.titlurile-zilei.ro/appDate",
+	        dataType: "HTML",
+	        success: function (e) {
+	            $(".data").append(e)
+	        }
+	    });
 		
 	    var classSun = 'favIt'; 
 		var favTxt = 'Favorite +';

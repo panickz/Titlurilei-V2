@@ -174,7 +174,7 @@ body {
 	height:100%;
 	background-color:rgba(0,0,0,0.7);
 }
-
+img{transform: translate3d(0,0,0);}
 /*Adjustments for tablets*/
 
 @media screen and (orientation:landscape) {

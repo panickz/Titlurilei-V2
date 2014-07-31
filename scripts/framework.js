@@ -38,23 +38,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	//Sliding Door
-	
-	$('.sliding-door-top').click(function(){
-		$(this).animate({
-			left:'101%'
-		}, 500, 'easeInOutExpo');
-		return false;
-	});
-	
-	$('.sliding-door-bottom a em').click(function(){
-		$(this).parent().parent().parent().find('.sliding-door-top').animate({
-			left:'0px'
-		}, 500, 'easeOutBounce');
-		return false
-		
-	});
-	
+
 
 	//Detect user agent for known mobile devices and show hide elements for each specific element
 	var isiPhone = 	  navigator.userAgent.toLowerCase().indexOf("iphone");
