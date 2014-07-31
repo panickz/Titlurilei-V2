@@ -2,8 +2,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Epsilon Mobile Framework - Version 2.0</title>
 
 <link href="styles/style.css"     		rel="stylesheet" type="text/css">
@@ -28,14 +26,23 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 	function onDeviceReady() {
+	
 		 navigator.splashscreen.hide();
+		 
+		 $.ajax({
+	        async: false,
+	        type: "GET",
+	        url: "http://www.titlurile-zilei.ro/getWeatherJSON",
+	        dataType: "JSON",
+	        success: function (e) {
+	            $(".temperature").append(Math.floor(e.main.temp)+'º');
+	            $(".sidebar-logo").attr('src','http://openweathermap.org/img/w/' + e.weather[0].icon + '.png');
+	        }
+	    });
+	   
+	    var now = moment().format("dd, MM Do, YYYY, h:mm:ss A");
+		$('.data').append(now);
 	}
-
-	function deleteSTR(){	
-		 window.localStorage.removeItem("covers");
-	}
- 
-
 </script>
 </head>
 <body>
@@ -43,11 +50,6 @@ document.addEventListener("deviceready", onDeviceReady, false);
 <div class="all-elements">
     <div id="sidebar" class="page-sidebar">
         <div class="page-sidebar-scroll">
-            <div class="sidebar-controls">
-                <a href='#' onclick="window.open('https://www.facebook.com/TitlurileZilei', '_system');" target="_blank" class="sidebar-face"></a>
-                <a href='#' onclick="window.open('http://www.pinterest.com/TitlurileZilei', '_system');" target="_blank" class="sidebar-twit"></a>
-                <a href='#' class="sidebar-close"></a>
-            </div>  
 			<div class="sidebar-header">
             	<img class="sidebar-logo round-decoration" src="" alt="img">
                 <h4 class="center-text temperature"></h4>
@@ -58,11 +60,10 @@ document.addEventListener("deviceready", onDeviceReady, false);
                 <p>Navigation</p>
                 <div class="sidebar-decoration"></div>
             </div>
-            
             <div class="navigation-items">
                 <div class="nav-item">
                     <a href="#" class="gallery-nav submenu-deploy">Categories<em></em></a>
-                    <div class="nav-item-submenu active-submenu cats">
+                    <div class="nav-item-submenu cats">
                     	<div class="sidebar-decoration"></div>
                     	
                     </div>
@@ -77,7 +78,6 @@ document.addEventListener("deviceready", onDeviceReady, false);
                 <p>Let's get social!</p>
                 <div class="sidebar-decoration"></div>
             </div>  
-            
             <div class="navigation-items">
                 <div class="nav-item">
                     <a href="#" onclick="window.open('https://www.facebook.com/TitlurileZilei', '_system');" target="_blank" class="facebook-nav">Facebook<em class="link-nav"></em></a>
@@ -199,7 +199,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
                     <a href='#' onclick="window.open('https://www.facebook.com/TitlurileZilei', '_system');" rel='external' class="facebook-footer"></a>
                     <a href='#' onclick="window.open('http://www.pinterest.com/TitlurileZilei/', '_system');" rel='external' class="twitter-footer"></a>
                 </div>
-                <p class="copyright uppercase center-text no-bottom">Copyright 2013<br> All rights reserved</p>        
+                <p class="copyright uppercase center-text no-bottom">Titlurile Zilei 2013<br> All rights reserved</p>        
 			</div>
 		</div>        
     </div>  
@@ -210,33 +210,14 @@ document.addEventListener("deviceready", onDeviceReady, false);
 <script type="text/javascript">
 
 
-	$(function () {
+	$(document).ready(function () {
 		
-	    $.ajax({
-	        async: false,
-	        type: "GET",
-	        url: "http://www.titlurile-zilei.ro/getWeatherJSON",
-	        dataType: "JSON",
-	        success: function (e) {
-	            $(".temperature").append(Math.floor(e.main.temp)+'º');
-	            $(".sidebar-logo").attr('src','http://openweathermap.org/img/w/' + e.weather[0].icon + '.png');
-	        }
-	    });
-	   
-	    $.ajax({
-	        async: false,
-	        type: "GET",
-	        url: "http://www.titlurile-zilei.ro/appDate",
-	        dataType: "HTML",
-	        success: function (e) {
-	            $(".data").append(e)
-	        }
-	    });
 	    var classSun = 'favIt'; 
 		var favTxt = 'Favorite +';
+		
 	    if (typeof window.localStorage.getItem("covers") != "undefined" && window.localStorage.getItem("covers") !== null) {
+	        
 	        var e = JSON.parse(window.localStorage.getItem("covers"));
-	     
 	        $.ajax({
 	            async: false,
 	            type: "GET",
@@ -249,7 +230,6 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	                }
 	            }
 	        });
-	        
 	        
 	        var switcher = 0;
 	        var theCat = null;
@@ -289,18 +269,19 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	             	<p style="margin:10px 0 0 0;" > \
                         <input type="button" value="'+favTxt+'" class="sun_BTN '+classSun+'" data-id="' + e[t].hook + '" data-cover="' + e[t].cover + '"> \
                     </p> \
-                    <a href="http://www.titlurile-zilei.com/assets/upload/mobile/' + e[t].cover + '" class="swipebox" rel="gal' + e[t].id + '"> \
-                        <img class="responsive-image" src="http://www.titlurile-zilei.com/assets/upload/mobile/' + e[t].cover + '" alt="img"> \
+                    <a href="http://www.titlurile-zilei.com/assets/upload/mobile/' + e[t].cover + '" title="'+ e[t].name+'" class="swipebox" rel="gal' + e[t].id + '"> \
+                        <img class="responsive-image" src="http://www.titlurile-zilei.com/assets/upload/mobile/' + e[t].cover + '" onError="this.onerror=null;this.src=\'images/noimage.gif\';" alt="img"> \
                     </a> \
                     <h4>'+ e[t].name.substr(0,16) + '</h4> \
                 </div>');
                 
                 theCat =  e[t].id;
-                
                 switcher = switcher + 1;
                
 	        }
+	        
 	    } else {
+	    
 	        $.ajax({
 	            async: false,
 	            type: "GET",
@@ -332,8 +313,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	                                								<p style="margin:10px 0 0 0;"> \
 													                    <input type="button" value="Favorite +" class="sun_BTN favIt" data-id="' + s[o].hook + '" data-cover="' + s[o].cover + '"> \
 													                </p> \
-												                    <a href="http://www.titlurile-zilei.com/assets/upload/mobile/' + s[o].cover + '" class="swipebox" rel="gal' + e[i].id + '"> \
-												                        <img class="responsive-image" src="http://www.titlurile-zilei.com/assets/upload/mobile/' + s[o].cover + '" alt="img"> \
+												                    <a href="http://www.titlurile-zilei.com/assets/upload/mobile/' + s[o].cover + '" title="'+ e[t].name+'" class="swipebox" rel="gal' + e[i].id + '"> \
+												                        <img class="responsive-image" src="http://www.titlurile-zilei.com/assets/upload/mobile/' + s[o].cover + '" alt="img" onError="this.onerror=null;this.src=\'images/noimage.gif\';"> \
 												                    </a> \
 												                    <h4>'+ s[o].name.substr(0,146) + '</h4> \
 												                </div>');
@@ -357,12 +338,11 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	            }
 	        })
 	    }  
-	});
-	$(document).ready(function () {
-	 
+
 	    $(".favIt").click(function () {
 	        var e = $(this).attr("data-id");
 	        var t = $(this).attr("data-cover");
+	        var $this = $(this);
 	        if (localStorage.getItem("favJSON") === null) {
 	            var n = [{
 	                id: e,
@@ -370,8 +350,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	            }];
 	            window.localStorage.setItem("favJSON", JSON.stringify(n));
 	            var r = window.localStorage.getItem("favJSON");
-	            $(this).val('Added');
-	            $(this).addClass('sun_Active');
+	            $this.val('Added');
+	            $this.addClass('sun_Active');
 	        } else {
 	            var n = [{
 	                id: e,
@@ -388,8 +368,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 	                var u = $.merge(i, n);
 	                window.localStorage.setItem("favJSON", JSON.stringify(u));
 	                var r = localStorage.getItem("favJSON");
-	                $(this).val('Added');
-	                $(this).addClass('sun_Active');
+	                $this.val('Added');
+	                $this.addClass('sun_Active');
 	            }
 	            
 	        }
@@ -413,11 +393,13 @@ document.addEventListener("deviceready", onDeviceReady, false);
 				 
 	        }
 	    }
-	     $(".swipebox").swipebox({
+	    
+	    $(".swipebox").swipebox({
 	        useCSS: true,
 	        useSVG: true,
 	        hideBarsOnMobile: false,
 	        hideBarsDelay: 3e3
 	    });
+	    
 	})
  </script>				 
