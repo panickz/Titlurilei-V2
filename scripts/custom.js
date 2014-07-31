@@ -28,10 +28,10 @@ $(document).ready(function(){
 	$('.deploy-sidebar').click(function(){
 		//$(this).toggleClass('remove-sidebar');
 		if( snapper.state().state=="left" ){
-		$('body').css('overflow','initial'); 
+		$('body').css('overflow-y','initial'); 
 			snapper.close();
 		} else {
-		$('body').css('overflow','hidden');
+		$('body').css('overflow-y','hidden');
 			snapper.open('left');
 		}
 		return false;
