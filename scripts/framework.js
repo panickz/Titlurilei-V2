@@ -36,7 +36,7 @@ $(document).ready(function(){
 		$(this).toggleClass('submenu-nav-deploy-active');
 		$(this).parent().find('.submenu-nav-items').toggle(100);
 		return false;
-	});
+	}); 
 	
 
 
