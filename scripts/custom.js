@@ -28,11 +28,11 @@ $(document).ready(function(){
 	$('.deploy-sidebar').click(function(){
 		//$(this).toggleClass('remove-sidebar');
 		if( snapper.state().state=="left" ){
+		$('body').css('overflow-y','initial'); 
 			snapper.close();
-			$('body').css('position','inherit');
 		} else {
+		$('body').css('overflow-y','hidden');
 			snapper.open('left');
-			$('body').css('position','fixed');
 		}
 		return false;
 	});
